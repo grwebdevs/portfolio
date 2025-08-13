@@ -1,96 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ghulam Rasool | Portfolio</title>
+  <!-- ====== META ====== -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ghulam Rasool — Portfolio</title>
+  <meta name="description" content="Web Developer, SEO & E-commerce specialist building fast, beautiful web experiences." />
+  <meta property="og:title" content="Ghulam Rasool — Portfolio" />
+  <meta property="og:description" content="Web Developer, SEO & E-commerce specialist building fast, beautiful web experiences." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0ea5e9" />
+
+  <!-- Tailwind (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- EmailJS (CDN) — replace PUBLIC_KEY / SERVICE_ID / TEMPLATE_ID in the script below -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <!-- ====== CUSTOM CSS ====== -->
   <style>
-    body { background: radial-gradient(circle at 20% 30%, #0f172a, #020617); }
-    .glass {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    :root{
+      --bg1:#030711; --bg2:#0b1220; --glass:rgba(255,255,255,0.06);
+      --stroke:rgba(255,255,255,0.12); --brand:#38bdf8; --brand2:#22d3ee;
     }
-    .glow {
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.7);
+    html,body { height:100%; }
+    body{
+      color:#e5e7eb; background: radial-gradient(1200px 800px at 20% 10%, var(--bg2), var(--bg1) 40%) fixed;
+      overflow-x:hidden;
     }
+    /* Animated gradient ring behind hero avatar */
+    .ring-gradient::before{
+      content:""; position:absolute; inset:-24px; z-index:-1;
+      background: conic-gradient(from 180deg at 50% 50%, var(--brand), var(--brand2), #8b5cf6, var(--brand));
+      filter: blur(16px) saturate(140%); opacity:.35; border-radius:50%;
+      animation: spin-slow 18s linear infinite;
+    }
+    @keyframes spin-slow { to { transform: rotate(360deg); } }
+
+    /* Floating orbs */
+    .orb { position:absolute; border-radius:9999px; filter: blur(40px); opacity:.2; mix-blend: screen; }
+    .orb-1{ width:420px;height:420px; background:#2563eb; top:-120px; right:-120px; animation: drift 22s ease-in-out infinite alternate; }
+    .orb-2{ width:300px;height:300px; background:#a855f7; bottom:-80px; left:-60px; animation: drift 26s ease-in-out infinite alternate-reverse; }
+    .orb-3{ width:260px;height:260px; background:#06b6d4; top:40%; left:-100px; animation: drift 28s ease-in-out infinite alternate; }
+    @keyframes drift { to { transform: translate(40px, -30px) scale(1.06);} }
+
+    /* Glass card */
+    .glass{
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border:1px solid var(--stroke);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    /* Shimmer underline */
+    .u-shimmer{
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
+      background-size:200% 2px; height:2px; display:block;
+      animation: shine 4s linear infinite; border-radius:2px;
+    }
+    @keyframes shine{ 0%{background-position:200% 0} 100%{background-position:-200% 0}}
+
+    /* Reveal on scroll */
+    .reveal { opacity:0; transform: translateY(24px); transition: all .7s ease; }
+    .reveal.revealed { opacity:1; transform: translateY(0); }
+
+    /* Button glow */
+    .btn-glow{ box-shadow: 0 0 0 0 rgba(56,189,248,.65); animation:pulse 2.4s ease-out infinite; }
+    @keyframes pulse{ 70%{ box-shadow:0 0 0 16px rgba(56,189,248,0);} 100%{ box-shadow:0 0 0 0 rgba(56,189,248,0);} }
+
+    /* Card hover 3D */
+    .h3d{ transform-style:preserve-3d; transform: perspective(800px) rotateX(0) rotateY(0); transition: transform .2s ease; }
+    .h3d:hover{ transform: perspective(800px) rotateX(4deg) rotateY(-6deg) translateY(-2px); }
+
+    /* Badge */
+    .badge{ border:1px solid var(--stroke); background:rgba(56,189,248,.08); }
+
+    /* Toast */
+    #toast{ position:fixed; right:1rem; bottom:1rem; z-index:100; display:none;}
   </style>
 </head>
-<body class="text-white font-sans">
+<body class="selection:bg-sky-600/30 antialiased">
+  <!-- Background Orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
 
-  <!-- HERO -->
-  <section class="min-h-screen flex flex-col items-center justify-center text-center px-4">
-    <img src="assets/avatar.png" alt="Ghulam Rasool" class="w-32 h-32 rounded-full border-4 border-blue-500 glow mb-6">
-    <h1 class="text-4xl md:text-6xl font-bold mb-2">Hi, I'm <span class="text-blue-400">Ghulam Rasool</span></h1>
-    <p class="text-gray-300 max-w-xl">Web Developer • Graphic Designer • SEO Specialist • E-Commerce Expert</p>
-    <a href="#projects" class="mt-6 px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-full transition">View My Work</a>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="py-20 px-6">
-    <div class="max-w-4xl mx-auto glass p-8 rounded-2xl">
-      <h2 class="text-3xl font-bold mb-4">About Me</h2>
-      <p class="text-gray-300 leading-relaxed">
-        I create responsive, SEO-friendly, and visually stunning websites. With expertise in web development, graphic design, and e-commerce solutions, I help brands grow their online presence and drive results.
-      </p>
+  <!-- ====== NAV ====== -->
+  <header class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/5 border-b border-white/10">
+    <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2">
+        <span class="inline-flex h-8 w-8 rounded-full bg-gradient-to-br from-sky-400 to-cyan-300"></span>
+        <span class="font-semibold tracking-wide">Ghulam Rasool</span>
+      </a>
+      <button id="navToggle" class="md:hidden p-2 rounded hover:bg-white/10" aria-label="Toggle menu">
+        <!-- hamburger -->
+        <svg width="24" height="24" fill="none" stroke="currentColor"><path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <ul id="nav" class="hidden md:flex items-center gap-6 text-sm">
+        <li><a class="hover:text-sky-300" href="#about">About</a></li>
+        <li><a class="hover:text-sky-300" href="#projects">Projects</a></li>
+        <li><a class="hover:text-sky-300" href="#skills">Skills</a></li>
+        <li><a class="hover:text-sky-300" href="#experience">Experience</a></li>
+        <li><a class="hover:text-sky-300" href="#contact">Contact</a></li>
+        <li><a class="inline-flex items-center gap-2 rounded-full bg-sky-500/90 hover:bg-sky-400 text-sm px-4 py-2 btn-glow" href="assets/gr-cv.pdf" target="_blank">Download CV
+          <svg width="18" height="18" fill="none" stroke="currentColor"><path stroke-width="2" d="M12 5v6m0 0l3-3m-3 3L9 8M3 13v3h12v-3"/></svg></a></li>
+      </ul>
+    </nav>
+    <div id="mobile" class="md:hidden hidden px-4 pb-3">
+      <a class="block py-2 hover:text-sky-300" href="#about">About</a>
+      <a class="block py-2 hover:text-sky-300" href="#projects">Projects</a>
+      <a class="block py-2 hover:text-sky-300" href="#skills">Skills</a>
+      <a class="block py-2 hover:text-sky-300" href="#experience">Experience</a>
+      <a class="block py-2 hover:text-sky-300" href="#contact">Contact</a>
     </div>
+  </header>
+
+  <!-- ====== HERO ====== -->
+  <section class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+    <div class="grid md:grid-cols-[340px,1fr] gap-10 items-center">
+      <div class="relative w-[220px] h-[220px] md:w-[280px] md:h-[280px] rounded-full mx-auto ring-gradient">
+        <img src="assets/avatar.png" alt="Ghulam Rasool" class="absolute inset-0 m-auto w-[200px] h-[200px] md:w-[240px] md:h-[240px] rounded-full object-cover border border-white/20 glass">
+      </div>
+      <div>
+        <span class="inline-flex items-center gap-2 badge px-3 py-1 rounded-full text-xs tracking-wide">
+          <span class="h-2 w-2 rounded-full bg-emerald-400"></span> Available for work
+        </span>
+        <h1 class="mt-4 text-4xl sm:text-5xl md:text-6xl font-semibold leading-tight">
+          I craft <span class="bg-clip-text text-transparent bg-gradient-to-r from-sky-300 to-cyan-300">fast, beautiful</span> web experiences.
+        </h1>
+        <p class="mt-4 text-slate-300/90 max-w-2xl">
+          Web Developer • Graphic Designer • SEO Specialist • Shopify Expert. I build responsive, SEO-ready sites and e-commerce stores that convert.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <span class="px-3 py-1 text-xs rounded-full border border-white/15 bg-white/5">HTML</span>
+          <span class="px-3 py-1 text-xs rounded-full border border-white/15 bg-white/5">CSS</span>
+          <span class="px-3 py-1 text-xs rounded-full border border-white/15 bg-white/5">JavaScript</span>
+          <span class="px-3 py-1 text-xs rounded-full border border-white/15 bg-white/5">Shopify</span>
+          <span class="px-3 py-1 text-xs rounded-full border border-white/15 bg-white/5">SEO</span>
+          <span class="px-3 py-1 text-xs rounded-full border border-white/15 bg-white/5">Python</span>
+          <span class="px-3 py-1 text-xs rounded-full border border-white/15 bg-white/5">Google Analytics / GTM</span>
+        </div>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#projects" class="inline-flex items-center gap-2 rounded-full bg-sky-500 hover:bg-sky-400 px-5 py-3">See Projects
+            <svg width="18" height="18" fill="none" stroke="currentColor"><path stroke-width="2" d="M5 12l4-4 4 4"/></svg></a>
+          <a href="#contact" class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 px-5 py-3">Hire Me</a>
+        </div>
+      </div>
+    </div>
+    <span class="u-shimmer mt-10"></span>
   </section>
 
-  <!-- PROJECTS -->
-  <section id="projects" class="py-20 px-6">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="text-3xl font-bold mb-8 text-center">Projects</h2>
-      <div class="grid md:grid-cols-3 gap-8">
-        <a href="https://nazneenakbari.com" target="_blank" class="glass p-4 rounded-xl hover:scale-105 transition">
-          <img src="assets/nazneen.jpg" class="rounded-lg mb-4">
-          <h3 class="text-xl font-semibold">Nazneen Akbari</h3>
-          <p class="text-gray-400">E-commerce fashion site — full design, development, and management.</p>
-        </a>
-        <a href="https://vapeuniverse.co" target="_blank" class="glass p-4 rounded-xl hover:scale-105 transition">
-          <img src="assets/vape.jpg" class="rounded-lg mb-4">
-          <h3 class="text-xl font-semibold">Vape Universe</h3>
-          <p class="text-gray-400">Shopify store design, technical SEO optimization.</p>
-        </a>
-        <a href="https://sylsalon.com" target="_blank" class="glass p-4 rounded-xl hover:scale-105 transition">
-          <img src="assets/syl.jpg" class="rounded-lg mb-4">
-          <h3 class="text-xl font-semibold">Syl Salon</h3>
-          <p class="text-gray-400">Salon website — design revamp, technical error fixing.</p>
+  <!-- ====== ABOUT ====== -->
+  <section id="about" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid lg:grid-cols-2 gap-8 reveal">
+      <div class="glass rounded-2xl p-8">
+        <h2 class="text-2xl font-semibold">About</h2>
+        <p class="mt-3 text-slate-300/90">
+          I’m a Lahore-based developer with 4+ years building sites for local & international clients.
+          I focus on clean UI, performance, and measurable SEO wins for brands and stores.
+        </p>
+        <ul class="mt-6 grid sm:grid-cols-2 gap-3 text-sm">
+          <li class="flex gap-2"><span class="text-sky-300">▹</span> Shopify design & development</li>
+          <li class="flex gap-2"><span class="text-sky-300">▹</span> Technical SEO & analytics</li>
+          <li class="flex gap-2"><span class="text-sky-300">▹</span> Pixel-perfect HTML/CSS/JS</li>
+          <li class="flex gap-2"><span class="text-sky-300">▹</span> Performance tuning</li>
+        </ul>
+      </div>
+      <div class="glass rounded-2xl p-8">
+        <h3 class="text-xl font-semibold">Quick Stats</h3>
+        <div class="mt-6 grid grid-cols-3 gap-4 text-center">
+          <div><div class="text-3xl font-bold" data-counter="28">0</div><p class="text-xs text-slate-400">Sites Launched</p></div>
+          <div><div class="text-3xl font-bold" data-counter="4">0</div><p class="text-xs text-slate-400">Years</p></div>
+          <div><div class="text-3xl font-bold" data-counter="96">0</div><p class="text-xs text-slate-400">Client NPS</p></div>
+        </div>
+        <a class="mt-6 inline-flex items-center gap-2 text-sky-300 hover:text-sky-200" href="mailto:grwebdevs5@gmail.com">
+          Let’s talk
+          <svg width="18" height="18" fill="none" stroke="currentColor"><path stroke-width="2" d="M5 12l4-4 4 4"/></svg>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- SKILLS -->
-  <section class="py-20 px-6 glass">
-    <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-3xl font-bold mb-8">Skills</h2>
-      <div class="flex flex-wrap justify-center gap-6">
-        <span class="px-4 py-2 bg-blue-600 rounded-full">HTML/CSS</span>
-        <span class="px-4 py-2 bg-blue-600 rounded-full">JavaScript</span>
-        <span class="px-4 py-2 bg-blue-600 rounded-full">Shopify</span>
-        <span class="px-4 py-2 bg-blue-600 rounded-full">SEO</span>
-        <span class="px-4 py-2 bg-blue-600 rounded-full">Python</span>
+  <!-- ====== PROJECTS ====== -->
+  <section id="projects" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <h2 class="text-3xl font-semibold text-center">Projects</h2>
+    <p class="mt-2 text-center text-slate-400">Selected client work & e-commerce builds.</p>
+
+    <div class="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Card -->
+      <a href="https://nazneenakbari.com" target="_blank" class="glass rounded-xl p-4 h3d reveal">
+        <div class="relative overflow-hidden rounded-lg">
+          <img src="assets/nazneen.jpg" alt="Nazneen Akbari" class="w-full h-44 object-cover">
+          <span class="absolute top-3 left-3 text-[11px] px-2 py-1 rounded-full bg-sky-500/90">Fashion</span>
+        </div>
+        <h3 class="mt-4 text-lg font-semibold">Nazneen Akbari</h3>
+        <p class="mt-1 text-sm text-slate-400">E-commerce fashion site — full design, development, and management.</p>
+        <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+          <span class="px-2 py-1 rounded-full bg-white/5 border border-white/10">Shopify</span>
+          <span class="px-2 py-1 rounded-full bg-white/5 border border-white/10">SEO</span>
+          <span class="px-2 py-1 rounded-full bg-white/5 border border-white/10">Speed</span>
+        </div>
+      </a>
+
+      <a href="https://vapeuniverse.co" target="_blank" class="glass rounded-xl p-4 h3d reveal">
+        <div class="relative overflow-hidden rounded-lg">
+          <img src="assets/vape.jpg" alt="Vape Universe" class="w-full h-44 object-cover">
+          <span class="absolute top-3 left-3 text-[11px] px-2 py-1 rounded-full bg-sky-500/90">Retail</span>
+        </div>
+        <h3 class="mt-4 text-lg font-semibold">Vape Universe</h3>
+        <p class="mt-1 text-sm text-slate-400">Shopify store design with technical SEO optimization.</p>
+        <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+          <span class="px-2 py-1 rounded-full bg-white/5 border border-white/10">Shopify</span>
+          <span class="px-2 py-1 rounded-full bg-white/5 border border-white/10">GA/GTM</span>
+        </div>
+      </a>
+
+      <a href="https://sylsalon.com" target="_blank" class="glass rounded-xl p-4 h3d reveal">
+        <div class="relative overflow-hidden rounded-lg">
+          <img src="assets/syl.jpg" alt="Syl Salon" class="w-full h-44 object-cover">
+          <span class="absolute top-3 left-3 text-[11px] px-2 py-1 rounded-full bg-sky-500/90">Service</span>
+        </div>
+        <h3 class="mt-4 text-lg font-semibold">Syl Salon</h3>
+        <p class="mt-1 text-sm text-slate-400">Redesign + technical fixes to improve conversions.</p>
+        <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+          <span class="px-2 py-1 rounded-full bg-white/5 border border-white/10">UX</span>
+          <span class="px-2 py-1 rounded-full bg-white/5 border border-white/10">Performance</span>
+        </div>
+      </a>
+
+      <a href="https://thedocumentco.com" target="_blank" class="glass rounded-xl p-4 h3d reveal">
+        <div class="relative overflow-hidden rounded-lg">
+          <img src="assets/thedocumentco.jpg" alt="The Document Co" class="w-full h-44 object-cover">
+        </div>
+        <h3 class="mt-4 text-lg font-semibold">TheDocumentCo</h3>
+        <p class="mt-1 text-sm text-slate-400">Technical error fixing & enhancements.</p>
+        <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+          <span class="px-2 py-1 rounded-full bg-white/5 border border-white/10">PHP</span>
+          <span class="px-2 py-1 rounded-full bg-white/5 border border-white/10">JS</span>
+        </div>
+      </a>
+
+      <a href="https://10upmarketing.com" target="_blank" class="glass rounded-xl p-4 h3d reveal">
+        <div class="relative overflow-hidden rounded-lg">
+          <img src="assets/10up.jpg" alt="10up Marketing" class="w-full h-44 object-cover">
+        </div>
+        <h3 class="mt-4 text-lg font-semibold">10up Marketing</h3>
+        <p class="mt-1 text-sm text-slate-400">Development support and site improvements.</p>
+        <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+          <span class="px-2 py-1 rounded-full bg-white/5 border border-white/10">WordPress</span>
+          <span class="px-2 py-1 rounded-full bg-white/5 border border-white/10">SEO</span>
+        </div>
+      </a>
+
+      <a href="https://malikheatingcooling.com" target="_blank" class="glass rounded-xl p-4 h3d reveal">
+        <div class="relative overflow-hidden rounded-lg">
+          <img src="assets/malik.jpg" alt="Malik Heating & Cooling" class="w-full h-44 object-cover">
+        </div>
+        <h3 class="mt-4 text-lg font-semibold">Malik Heating & Cooling</h3>
+        <p class="mt-1 text-sm text-slate-400">Technical fixes & performance tuning.</p>
+        <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+          <span class="px-2 py-1 rounded-full bg-white/5 border border-white/10">Fixes</span>
+          <span class="px-2 py-1 rounded-full bg-white/5 border border-white/10">Speed</span>
+        </div>
+      </a>
+    </div>
+    <div class="text-center mt-8">
+      <a href="projects/" class="text-sky-300 hover:text-sky-200">See detailed case studies →</a>
+    </div>
+  </section>
+
+  <!-- ====== SKILLS ====== -->
+  <section id="skills" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <div class="glass rounded-2xl p-8 reveal">
+      <h2 class="text-2xl font-semibold">Skills</h2>
+      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+          <p class="font-medium">Frontend</p>
+          <p class="text-slate-400 mt-1">HTML, CSS, JS, Tailwind</p>
+        </div>
+        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+          <p class="font-medium">Backend</p>
+          <p class="text-slate-400 mt-1">PHP, Python (basics)</p>
+        </div>
+        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+          <p class="font-medium">E-commerce</p>
+          <p class="text-slate-400 mt-1">Shopify setup, themes, apps</p>
+        </div>
+        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+          <p class="font-medium">SEO & Analytics</p>
+          <p class="text-slate-400 mt-1">On-page, technical, GA, GTM, Looker Studio</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact" class="py-20 px-6">
-    <div class="max-w-xl mx-auto glass p-8 rounded-2xl text-center">
-      <h2 class="text-3xl font-bold mb-4">Contact Me</h2>
-      <form action="https://formspree.io/f/your-id" method="POST" class="space-y-4">
-        <input type="text" name="name" placeholder="Your Name" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700">
-        <input type="email" name="email" placeholder="Your Email" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700">
-        <textarea name="message" placeholder="Your Message" rows="4" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700"></textarea>
-        <button type="submit" class="w-full py-3 bg-blue-500 hover:bg-blue-600 rounded-lg">Send</button>
+  <!-- ====== EXPERIENCE ====== -->
+  <section id="experience" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <h2 class="text-3xl font-semibold">Experience</h2>
+    <div class="mt-6 grid lg:grid-cols-2 gap-6">
+      <div class="glass rounded-2xl p-6 reveal">
+        <p class="text-sky-300 text-sm">2020 — Present</p>
+        <h3 class="text-xl font-semibold">DreamPeak Solutions</h3>
+        <p class="text-slate-400">Website Developer & Manager</p>
+      </div>
+      <div class="glass rounded-2xl p-6 reveal">
+        <p class="text-sky-300 text-sm">2020 — Present</p>
+        <h3 class="text-xl font-semibold">ILM School</h3>
+        <p class="text-slate-400">Computer Teacher & Tech Expert</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== CONTACT ====== -->
+  <section id="contact" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid lg:grid-cols-2 gap-8 items-stretch">
+      <div class="glass rounded-2xl p-8 reveal">
+        <h2 class="text-2xl font-semibold">Let’s build something great</h2>
+        <p class="mt-2 text-slate-300/90">
+          Tell me about your project. I usually reply within 24 hours.
+        </p>
+        <div class="mt-6 text-sm space-y-2">
+          <p class="flex items-center gap-2"><svg width="18" height="18" fill="none" stroke="currentColor"><path stroke-width="2" d="M3 5h18M3 12h18M3 19h18" /></svg> Lahore, Pakistan</p>
+          <p class="flex items-center gap-2"><svg width="18" height="18" fill="none" stroke="currentColor"><path stroke-width="2" d="M4 4l16 8-16 8V4Z"/></svg> <a class="hover:text-sky-300" href="mailto:grwebdevs5@gmail.com">grwebdevs5@gmail.com</a></p>
+          <p class="flex items-center gap-2"><svg width="18" height="18" fill="none" stroke="currentColor"><path stroke-width="2" d="M2 6h20v12H2z"/></svg> <a class="hover:text-sky-300" href="https://grwebdevs.com" target="_blank">grwebdevs.com</a></p>
+        </div>
+      </div>
+
+      <!-- Contact Form (EmailJS) -->
+      <form id="contactForm" class="glass rounded-2xl p-8 reveal">
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="text-sm text-slate-400">Name</label>
+            <input required name="name" class="mt-1 w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 outline-none focus:border-sky-400" />
+          </div>
+          <div>
+            <label class="text-sm text-slate-400">Email</label>
+            <input required type="email" name="email" class="mt-1 w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 outline-none focus:border-sky-400" />
+          </div>
+        </div>
+        <div class="mt-4">
+          <label class="text-sm text-slate-400">Message</label>
+          <textarea required name="message" rows="5" class="mt-1 w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 outline-none focus:border-sky-400"></textarea>
+        </div>
+        <button id="sendBtn" class="mt-5 inline-flex items-center gap-2 rounded-lg bg-sky-500 hover:bg-sky-400 px-5 py-3">
+          <svg id="spinner" class="hidden animate-spin" width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-opacity=".2" stroke-width="4" fill="none"/><path d="M4 12a8 8 0 0 1 8-8" stroke="currentColor" stroke-width="4" fill="none"/></svg>
+          <span>Send Message</span>
+        </button>
+        <p class="mt-3 text-xs text-slate-400">Powered by EmailJS (free, no backend). Replace keys in the script.</p>
+        <p class="mt-1 text-xs text-slate-500">Alt: use <a class="text-sky-300" href="https://formsubmit.co" target="_blank">FormSubmit</a> if you prefer a no-JS static form.</p>
       </form>
     </div>
   </section>
 
-  <footer class="py-6 text-center text-gray-500">
-    &copy; 2025 Ghulam Rasool. All rights reserved.
+  <!-- ====== FOOTER ====== -->
+  <footer class="border-t border-white/10">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <p class="text-sm text-slate-400">© <span id="year"></span> Ghulam Rasool. All rights reserved.</p>
+      <div class="flex items-center gap-4 text-sm">
+        <a class="hover:text-sky-300" href="https://github.com/" target="_blank">GitHub</a>
+        <a class="hover:text-sky-300" href="https://www.linkedin.com/" target="_blank">LinkedIn</a>
+        <a class="hover:text-sky-300" href="mailto:grwebdevs5@gmail.com">Email</a>
+      </div>
+    </div>
   </footer>
 
+  <!-- Toast -->
+  <div id="toast" class="glass rounded-lg px-4 py-3 text-sm"></div>
+
+  <!-- ====== JS ====== -->
+  <script>
+    // ---- EmailJS Setup ----
+    // 1) Create an EmailJS account (emailjs.com)
+    // 2) Add an Email Service and a Template with variables: name, email, message
+    // 3) Replace the placeholders below:
+    const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+    const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
+    const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+
+    if (window.emailjs) {
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+    }
+
+    // ---- Helpers ----
+    const $ = (sel, ctx=document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
+
+    // Year
+    $("#year").textContent = new Date().getFullYear();
+
+    // Mobile nav
+    $("#navToggle").addEventListener("click", ()=>{
+      $("#mobile").classList.toggle("hidden");
+      $("#nav").classList.toggle("hidden");
+    });
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add("revealed"); io.unobserve(e.target); }
+      });
+    }, {threshold: .12});
+    $$(".reveal").forEach(el=>io.observe(el));
+
+    // Counters
+    const co = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const el = e.target; const target = +el.dataset.counter; let cur = 0;
+          const step = Math.ceil(target/42);
+          const t = setInterval(()=>{ cur += step; if(cur>=target){ cur=target; clearInterval(t); } el.textContent = cur; }, 24);
+          co.unobserve(el);
+        }
+      });
+    }, {threshold:.6});
+    $$("[data-counter]").forEach(el=>co.observe(el));
+
+    // Toast
+    function toast(msg, ok=true){
+      const t = $("#toast");
+      t.textContent = msg;
+      t.style.display = "block";
+      t.className = ok ? "glass rounded-lg px-4 py-3 text-sm border border-emerald-400/50" : "glass rounded-lg px-4 py-3 text-sm border border-rose-400/50";
+      setTimeout(()=> t.style.display="none", 3500);
+    }
+
+    // Contact form submit
+    $("#contactForm").addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      const btn = $("#sendBtn"), spin = $("#spinner");
+      btn.setAttribute("disabled","disabled"); spin.classList.remove("hidden");
+
+      const formData = new FormData(e.target);
+      const params = Object.fromEntries(formData.entries());
+
+      try{
+        if(!window.emailjs) throw new Error("EmailJS not loaded.");
+        const res = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+        toast("Message sent! I'll get back to you shortly.");
+        e.target.reset();
+      }catch(err){
+        console.error(err);
+        toast("Failed to send. Please email me directly.", false);
+        // Fallback mailto:
+        // window.location.href = `mailto:grwebdevs5@gmail.com?subject=Project Inquiry from ${encodeURIComponent(params.name)}&body=${encodeURIComponent(params.message)}`
+      }finally{
+        btn.removeAttribute("disabled"); spin.classList.add("hidden");
+      }
+    });
+  </script>
 </body>
 </html>
