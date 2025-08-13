@@ -5,23 +5,30 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Ghulam Rasool — Portfolio</title>
-  <meta name="description" content="Web Developer • Graphic Designer • SEO • Shopify Expert" />
+  <meta name="description" content="Web Developer • Graphic Designer • SEO • Shopify Expert in Lahore, Pakistan." />
   <meta name="theme-color" content="#06b6d4" />
   <meta property="og:title" content="Ghulam Rasool — Portfolio" />
   <meta property="og:description" content="Web Developer • Graphic Designer • SEO • Shopify Expert" />
   <meta property="og:type" content="website" />
 
+  <!-- Hints for faster 3rd-party fetches -->
+  <link rel="preconnect" href="https://www.google.com" crossorigin>
+  <link rel="dns-prefetch" href="//www.google.com">
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <!-- Tailwind (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- EmailJS (CDN) — replace PUBLIC_KEY, SERVICE_ID, TEMPLATE_ID below -->
+  <!-- EmailJS (CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <!-- === CUSTOM CSS === -->
   <style>
     :root{
       --bg1:#030712; --bg2:#0b1324; --glass:rgba(255,255,255,0.06);
-      --stroke:rgba(255,255,255,0.12); --brand:#38bdf8; --brand2:#a78bfa; --brand3:#22d3ee;
+      --stroke:rgba(255,255,255,0.12);
+      --brand:#38bdf8; --brand2:#a78bfa; --brand3:#22d3ee; --accent:#f472b6;
     }
     html,body{height:100%}
     body{
@@ -82,13 +89,27 @@
       font-weight:700;letter-spacing:.5px
     }
 
-    /* gradient outlines for section wrapper */
-    .section-wrap{position:relative}
-    .section-wrap::after{
-      content:"";position:absolute;inset:-1px;border-radius:18px;pointer-events:none;
-      background:linear-gradient(180deg,transparent,rgba(56,189,248,.15),transparent)
+    /* back-to-top */
+    #totop{position:fixed;right:1rem;bottom:1rem;z-index:50;display:none}
+
+    /* reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .orb,.ring-gradient::before,.gtitle,.u-shimmer{animation:none}
     }
   </style>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Person",
+    "name":"Ghulam Rasool",
+    "jobTitle":"Web Developer",
+    "email":"mailto:grwebdevs5@gmail.com",
+    "url":"https://your-github-username.github.io/your-repo",
+    "sameAs":["https://github.com/","https://www.linkedin.com/"]
+  }
+  </script>
 </head>
 <body class="selection:bg-cyan-600/30">
 
@@ -110,12 +131,13 @@
       <ul id="nav" class="hidden md:flex items-center gap-6 text-sm">
         <li><a class="hover:text-cyan-300" href="#about">About</a></li>
         <li><a class="hover:text-cyan-300" href="#projects">Projects</a></li>
+        <li><a class="hover:text-cyan-300" href="#services">Services</a></li>
         <li><a class="hover:text-cyan-300" href="#skills">Skills</a></li>
         <li><a class="hover:text-cyan-300" href="#experience">Experience</a></li>
         <li><a class="hover:text-cyan-300" href="#contact">Contact</a></li>
         <li>
           <a id="cvBtn" class="inline-flex items-center gap-2 rounded-full bg-cyan-500/90 hover:bg-cyan-400 text-sm px-4 py-2 btn-glow"
-             href="gr%20cv.pdf" target="_blank" rel="noopener">
+             href="gr%20cv.pdf" target="_blank" rel="noopener" title="Download CV">
              Download CV
              <svg width="18" height="18" fill="none" stroke="currentColor">
                <path stroke-width="2" d="M12 5v6m0 0l3-3m-3 3L9 8M3 13v3h12v-3"/>
@@ -127,6 +149,7 @@
     <div id="mobile" class="md:hidden hidden px-4 pb-3">
       <a class="block py-2 hover:text-cyan-300" href="#about">About</a>
       <a class="block py-2 hover:text-cyan-300" href="#projects">Projects</a>
+      <a class="block py-2 hover:text-cyan-300" href="#services">Services</a>
       <a class="block py-2 hover:text-cyan-300" href="#skills">Skills</a>
       <a class="block py-2 hover:text-cyan-300" href="#experience">Experience</a>
       <a class="block py-2 hover:text-cyan-300" href="#contact">Contact</a>
@@ -137,7 +160,6 @@
   <section class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 md:py-28">
     <div class="grid md:grid-cols-[340px,1fr] gap-10 items-center">
       <div class="relative w-[220px] h-[220px] md:w-[280px] md:h-[280px] rounded-full mx-auto ring-gradient">
-        <!-- gradient initials placeholder; replace with your photo when you want -->
         <div class="avatar absolute inset-0 m-auto w-[200px] h-[200px] md:w-[240px] md:h-[240px] rounded-full border border-white/20 glass text-5xl">
           GR
         </div>
@@ -174,7 +196,7 @@
   <!-- === ABOUT === -->
   <section id="about" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
     <div class="grid lg:grid-cols-2 gap-8 reveal">
-      <div class="glass rounded-2xl p-8 section-wrap">
+      <div class="glass rounded-2xl p-8">
         <h2 class="text-2xl font-semibold">About</h2>
         <p class="mt-3 text-slate-300/90">
           I’m a Lahore-based developer with 4+ years building sites for local & international clients.
@@ -187,7 +209,7 @@
           <li class="flex gap-2"><span class="text-cyan-300">▹</span> Performance tuning</li>
         </ul>
       </div>
-      <div class="glass rounded-2xl p-8 section-wrap">
+      <div class="glass rounded-2xl p-8">
         <h3 class="text-xl font-semibold">Quick Stats</h3>
         <div class="mt-6 grid grid-cols-3 gap-4 text-center">
           <div><div class="text-3xl font-bold" data-counter="28">0</div><p class="text-xs text-slate-400">Sites Launched</p></div>
@@ -202,6 +224,35 @@
     </div>
   </section>
 
+  <!-- === SERVICES (new) === -->
+  <section id="services" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <h2 class="text-3xl font-semibold text-center gtitle">Services</h2>
+    <p class="mt-2 text-center text-slate-400">Clear, outcome-focused offers.</p>
+    <div class="mt-10 grid md:grid-cols-3 gap-6">
+      <div class="glass rounded-2xl p-6 neon-hover">
+        <h3 class="text-xl font-semibold">Website in 7 Days</h3>
+        <p class="mt-2 text-slate-400 text-sm">Modern, responsive site with on-page SEO & analytics.</p>
+        <ul class="mt-4 text-sm space-y-2 list-disc list-inside text-slate-300">
+          <li>Design + Development</li><li>Performance-tuned</li><li>Launch support</li>
+        </ul>
+      </div>
+      <div class="glass rounded-2xl p-6 neon-hover border border-cyan-400/30">
+        <h3 class="text-xl font-semibold">Shopify Setup</h3>
+        <p class="mt-2 text-slate-400 text-sm">Theme, products, apps, payments, SEO.</p>
+        <ul class="mt-4 text-sm space-y-2 list-disc list-inside text-slate-300">
+          <li>Conversion-focused UX</li><li>Tracking & pixels</li><li>Speed optimizations</li>
+        </ul>
+      </div>
+      <div class="glass rounded-2xl p-6 neon-hover">
+        <h3 class="text-xl font-semibold">SEO Sprint</h3>
+        <p class="mt-2 text-slate-400 text-sm">Technical fixes + content strategy for rankings.</p>
+        <ul class="mt-4 text-sm space-y-2 list-disc list-inside text-slate-300">
+          <li>Site audit</li><li>Schema & sitemaps</li><li>Reporting</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <!-- === PROJECTS (auto-logo) === -->
   <section id="projects" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
     <h2 class="text-3xl font-semibold text-center gtitle">Projects</h2>
@@ -209,6 +260,25 @@
     <div id="projectsGrid" class="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     <div class="text-center mt-8">
       <a href="projects/" class="text-cyan-300 hover:text-cyan-200">See detailed case studies →</a>
+    </div>
+  </section>
+
+  <!-- === TESTIMONIALS (new) === -->
+  <section id="testimonials" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <h2 class="text-3xl font-semibold text-center gtitle">What clients say</h2>
+    <div class="mt-10 grid md:grid-cols-3 gap-6">
+      <blockquote class="glass rounded-2xl p-6 neon-hover">
+        <p class="text-slate-200">“Delivered a clean Shopify store that loads fast and ranks — sales increased in 30 days.”</p>
+        <footer class="mt-3 text-sm text-slate-400">— Retail Owner</footer>
+      </blockquote>
+      <blockquote class="glass rounded-2xl p-6 neon-hover">
+        <p class="text-slate-200">“Fixed our technical issues and set up tracking correctly. Clear reports, no fluff.”</p>
+        <footer class="mt-3 text-sm text-slate-400">— Marketing Lead</footer>
+      </blockquote>
+      <blockquote class="glass rounded-2xl p-6 neon-hover">
+        <p class="text-slate-200">“Pixel-perfect website delivered on time. Great communication.”</p>
+        <footer class="mt-3 text-sm text-slate-400">— Agency Partner</footer>
+      </blockquote>
     </div>
   </section>
 
@@ -257,7 +327,7 @@
   <!-- === CONTACT === -->
   <section id="contact" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
     <div class="grid lg:grid-cols-2 gap-8 items-stretch">
-      <div class="glass rounded-2xl p-8 reveal section-wrap">
+      <div class="glass rounded-2xl p-8 reveal">
         <h2 class="text-2xl font-semibold">Let’s build something great</h2>
         <p class="mt-2 text-slate-300/90">Tell me about your project. I usually reply within 24 hours.</p>
         <div class="mt-6 text-sm space-y-2">
@@ -267,21 +337,23 @@
         </div>
       </div>
 
-      <!-- Contact Form -->
-      <form id="contactForm" class="glass rounded-2xl p-8 reveal section-wrap">
+      <!-- Contact Form (EmailJS) -->
+      <form id="contactForm" class="glass rounded-2xl p-8 reveal">
+        <!-- honeypot (hidden) -->
+        <input type="text" name="_hp" class="hidden" tabindex="-1" autocomplete="off" />
         <div class="grid sm:grid-cols-2 gap-4">
           <div>
-            <label class="text-sm text-slate-400">Name</label>
-            <input required name="name" class="mt-1 w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 outline-none focus:border-cyan-400" />
+            <label class="text-sm text-slate-400" for="name">Name</label>
+            <input required id="name" name="name" class="mt-1 w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 outline-none focus:border-cyan-400" />
           </div>
           <div>
-            <label class="text-sm text-slate-400">Email</label>
-            <input required type="email" name="email" class="mt-1 w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 outline-none focus:border-cyan-400" />
+            <label class="text-sm text-slate-400" for="email">Email</label>
+            <input required id="email" type="email" name="email" class="mt-1 w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 outline-none focus:border-cyan-400" />
           </div>
         </div>
         <div class="mt-4">
-          <label class="text-sm text-slate-400">Message</label>
-          <textarea required name="message" rows="5" class="mt-1 w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 outline-none focus:border-cyan-400"></textarea>
+          <label class="text-sm text-slate-400" for="message">Message</label>
+          <textarea required id="message" name="message" rows="5" class="mt-1 w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 outline-none focus:border-cyan-400"></textarea>
         </div>
         <button id="sendBtn" class="mt-5 inline-flex items-center gap-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 px-5 py-3">
           <svg id="spinner" class="hidden animate-spin" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
@@ -290,8 +362,7 @@
           </svg>
           <span>Send Message</span>
         </button>
-        <p class="mt-3 text-xs text-slate-400">Powered by EmailJS. Put your keys in the script (below).</p>
-        <p class="mt-1 text-xs text-slate-500">No-JS alternative: replace this form with <a class="text-cyan-300" href="https://formsubmit.co" target="_blank" rel="noopener">FormSubmit</a>.</p>
+        <p class="mt-3 text-xs text-slate-400">Powered by EmailJS. Keys are in the script below.</p>
       </form>
     </div>
   </section>
@@ -308,87 +379,61 @@
     </div>
   </footer>
 
+  <!-- Back to top -->
+  <button id="totop" class="rounded-full bg-cyan-500 hover:bg-cyan-400 p-3 shadow-lg" title="Back to top" aria-label="Back to top">
+    ↑
+  </button>
+
   <!-- Toast -->
   <div id="toast" class="glass rounded-lg px-4 py-3 text-sm"></div>
 
   <!-- === JS === -->
   <script>
     /* ========= CONFIG ========= */
-    // 1) Add any projects you want below (no images needed).
+    // Your projects — no images needed (logos auto-fetch from site favicons).
     const PROJECTS = [
-      {
-        name: "Nazneen Akbari",
-        url: "https://nazneenakbari.com",
-        desc: "E-commerce fashion site — full design, development, and management.",
-        tags: ["Shopify","SEO","Speed"],
-        badge: "Fashion"
-      },
-      {
-        name: "Vape Universe",
-        url: "https://vapeuniverse.co",
-        desc: "Shopify store design with technical SEO optimization.",
-        tags: ["Shopify","GA/GTM"],
-        badge: "Retail"
-      },
-      {
-        name: "Syl Salon",
-        url: "https://sylsalon.com",
-        desc: "Redesign + technical fixes to improve conversions.",
-        tags: ["UX","Performance"],
-        badge: "Service"
-      },
-      {
-        name: "TheDocumentCo",
-        url: "https://thedocumentco.com",
-        desc: "Technical error fixing & enhancements.",
-        tags: ["PHP","JS"]
-      },
-      {
-        name: "10up Marketing",
-        url: "https://10upmarketing.com",
-        desc: "Development support and site improvements.",
-        tags: ["WordPress","SEO"]
-      },
-      {
-        name: "Malik Heating & Cooling",
-        url: "https://malikheatingcooling.com",
-        desc: "Technical fixes & performance tuning.",
-        tags: ["Fixes","Speed"]
-      },
-      {
-        name: "Daraz Store",
-        url: "https://www.daraz.pk/shop/pzg6b52d",
-        desc: "E-commerce operations & optimization on Daraz.",
-        tags: ["E-commerce","Ops"],
-        badge: "Marketplace"
-      }
+      { name:"Nazneen Akbari", url:"https://nazneenakbari.com", desc:"E-commerce fashion site — full design, development, and management.", tags:["Shopify","SEO","Speed"], badge:"Fashion" },
+      { name:"Vape Universe", url:"https://vapeuniverse.co", desc:"Shopify store design with technical SEO optimization.", tags:["Shopify","GA/GTM"], badge:"Retail" },
+      { name:"Syl Salon", url:"https://sylsalon.com", desc:"Redesign + technical fixes to improve conversions.", tags:["UX","Performance"], badge:"Service" },
+      { name:"TheDocumentCo", url:"https://thedocumentco.com", desc:"Technical error fixing & enhancements.", tags:["PHP","JS"] },
+      { name:"10up Marketing", url:"https://10upmarketing.com", desc:"Development support and site improvements.", tags:["WordPress","SEO"] },
+      { name:"Malik Heating & Cooling", url:"https://malikheatingcooling.com", desc:"Technical fixes & performance tuning.", tags:["Fixes","Speed"] },
+      { name:"Daraz Store", url:"https://www.daraz.pk/shop/pzg6b52d", desc:"E-commerce operations & optimization on Daraz.", tags:["E-commerce","Ops"], badge:"Marketplace" }
     ];
 
-    // 2) EmailJS keys — create an EmailJS account, service and template, then replace:
-    const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
-    const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
-    const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+    // EmailJS keys — PUBLIC ONLY. Do NOT expose private key on the web.
+    const EMAILJS_PUBLIC_KEY  = "uyOn7ZH2LPUeSQkJw";
+    const EMAILJS_SERVICE_ID  = "service_y88e7ph";
+    // Either rename your EmailJS template to 'template_contact' OR replace with your actual template id (e.g., 'template_abc123')
+    const EMAILJS_TEMPLATE_ID = "template_lzlo1bg";
 
     /* ======== HELPERS ======== */
-    const $ = (sel, ctx=document) => ctx.querySelector(sel);
+    const $  = (sel, ctx=document) => ctx.querySelector(sel);
     const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
 
     function faviconURL(siteURL){
-      try{
-        const u = new URL(siteURL);
-        return `https://www.google.com/s2/favicons?sz=128&domain=${u.hostname}`;
-      }catch{ return `https://www.google.com/s2/favicons?sz=128&domain=${siteURL}`; }
+      try{ const u = new URL(siteURL); return `https://www.google.com/s2/favicons?sz=128&domain=${u.hostname}`; }
+      catch{ return `https://www.google.com/s2/favicons?sz=128&domain=${siteURL}`; }
+    }
+
+    function svgFallback(){
+      return `<div class="w-12 h-12 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-width="1.6" d="M12 2l3 7h7l-5.7 4.1L18 21l-6-4-6 4 1.7-7.9L2 9h7z"/>
+                </svg>
+              </div>`;
     }
 
     function projectCard(p){
       const icon = faviconURL(p.url);
       const badge = p.badge ? `<span class="absolute top-3 left-3 text-[11px] px-2 py-1 rounded-full bg-cyan-500/90">${p.badge}</span>` : "";
-      const tags = (p.tags||[]).map(t=>`<span class="px-2 py-1 rounded-full bg-white/5 border border-white/10 text-[11px]">${t}</span>`).join("");
+      const tags  = (p.tags||[]).map(t=>`<span class="px-2 py-1 rounded-full bg-white/5 border border-white/10 text-[11px]">${t}</span>`).join("");
       return `
         <a href="${p.url}" target="_blank" rel="noopener" class="glass rounded-xl p-4 h3d reveal neon-hover">
           <div class="relative overflow-hidden rounded-lg flex justify-center items-center h-44 bg-gradient-to-br from-cyan-900/30 to-fuchsia-900/30">
             ${badge}
-            <img src="${icon}" alt="${p.name} logo" class="w-16 h-16" onerror="this.style.display='none'; this.previousElementSibling?.remove(); this.parentElement.insertAdjacentHTML('beforeend', '${svgFallback()}');" />
+            <img src="${icon}" alt="${p.name} logo" class="w-16 h-16"
+                 onerror="this.style.display='none'; this.previousElementSibling?.remove(); this.parentElement.insertAdjacentHTML('beforeend', '${svgFallback()}');" />
           </div>
           <h3 class="mt-4 text-lg font-semibold text-cyan-300">${p.name}</h3>
           <p class="mt-1 text-sm text-slate-400">${p.desc}</p>
@@ -397,23 +442,12 @@
       `;
     }
 
-    function svgFallback(){
-      // Minimal inline SVG badge if favicon fails
-      return `<div class="w-12 h-12 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path stroke-width="1.6" d="M12 2l3 7h7l-5.7 4.1L18 21l-6-4-6 4 1.7-7.9L2 9h7z"/>
-                </svg>
-              </div>`;
-    }
-
     function renderProjects(){
       const grid = $("#projectsGrid");
       grid.innerHTML = PROJECTS.map(projectCard).join("");
-      // Hook reveal on new nodes
       $$(".reveal", grid).forEach(el=>io.observe(el));
     }
 
-    // Toast
     function toast(msg, ok=true){
       const t = $("#toast");
       t.textContent = msg;
@@ -453,25 +487,41 @@
     }, {threshold:.6});
     $$("[data-counter]").forEach(el=>co.observe(el));
 
-    // Render projects (favicons auto)
+    // Render projects
     renderProjects();
 
     // Hide CV button if file doesn't exist
     (async ()=>{
-      try{
-        const res = await fetch("gr%20cv.pdf", {method:"HEAD"});
-        if(!res.ok) throw new Error();
-      }catch{
-        const btn = $("#cvBtn"); btn?.parentElement?.remove();
-      }
+      try{ const res = await fetch("gr%20cv.pdf", {method:"HEAD"}); if(!res.ok) throw new Error(); }
+      catch{ $("#cvBtn")?.parentElement?.remove(); }
     })();
 
+    // Back to top button
+    const topBtn = $("#totop");
+    window.addEventListener("scroll", ()=>{
+      if(window.scrollY > 600){ topBtn.style.display = "block"; } else { topBtn.style.display = "none"; }
+    });
+    topBtn.addEventListener("click", ()=> window.scrollTo({top:0, behavior:"smooth"}));
+
+    // Keyboard shortcuts: g p → projects, g c → contact
+    let gPressed = false;
+    window.addEventListener("keydown", (e)=>{
+      if(e.key.toLowerCase() === "g"){ gPressed = true; setTimeout(()=>gPressed=false, 800); }
+      else if(gPressed && e.key.toLowerCase() === "p"){ location.hash = "#projects"; }
+      else if(gPressed && e.key.toLowerCase() === "c"){ location.hash = "#contact"; }
+    });
+
     // EmailJS init
-    try{ if(window.emailjs && EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY"){ emailjs.init(EMAILJS_PUBLIC_KEY); } }catch(e){}
+    try{
+      if(window.emailjs && EMAILJS_PUBLIC_KEY){ emailjs.init(EMAILJS_PUBLIC_KEY); }
+    }catch{}
 
     // Contact form submit
     $("#contactForm").addEventListener("submit", async (e)=>{
       e.preventDefault();
+      const hp = e.target.querySelector('[name="_hp"]');
+      if(hp && hp.value){ return; } // honeypot: silently ignore bots
+
       const btn = $("#sendBtn"), spin = $("#spinner");
       btn.setAttribute("disabled","disabled"); spin.classList.remove("hidden");
 
@@ -479,17 +529,16 @@
       const params = Object.fromEntries(formData.entries());
 
       try{
-        if(!window.emailjs || EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY"){
-          throw new Error("EmailJS keys missing. Add your keys in the script.");
+        if(!window.emailjs) throw new Error("EmailJS not loaded.");
+        if(!EMAILJS_PUBLIC_KEY || !EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID){
+          throw new Error("EmailJS config missing.");
         }
         await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
         toast("Message sent! I'll get back to you shortly.");
         e.target.reset();
       }catch(err){
         console.error(err);
-        toast("Failed to send. Please email me directly.", false);
-        // Fallback mailto if you prefer:
-        // window.location.href = `mailto:grwebdevs5@gmail.com?subject=Project Inquiry from ${encodeURIComponent(params.name)}&body=${encodeURIComponent(params.message)}`
+        toast("Sending failed. Please email me directly.", false);
       }finally{
         btn.removeAttribute("disabled"); spin.classList.add("hidden");
       }
